@@ -5,6 +5,15 @@ services:
       dockerfile: ./Dockerfile
     image: arkserver
     user: steam
-    network_mode: host
-    # command: ls /home/steam/ark -al
-    command: /home/steam/ark/ShooterGame/Binaries/Linux/ShooterGameServer TheIsland?listen?Port=7777?QueryPort=27077?SessionName=MyArkServerHidena?ServerPassword=MyPassword?ServerAdminPassword=MyAdminPassword -nosteamclient -server -log
+    volumes:
+      - type: bind
+        target: /home/steam/ark/ShooterGame/Saved
+        source: ./Saved
+
+    ports:
+      - "7777:7777/udp"
+      - "7778:7778/udp"
+      - "27015:27015/udp"
+      - "27020:27020/tcp"
+
+    command: bash -c "steamcmd +force_install_dir /home/steam/ark/ +login anonymous +app_update 376030 +quit && /home/steam/ark/ShooterGame/Binaries/Linux/ShooterGameServer TheIsland?listen?MaxPlayers=20?Port=7777?QueryPort=27015 -nosteamclient -server -log"
