@@ -1,0 +1,10 @@
+version: "3.5"
+services:
+  arkserver:
+    build:
+      dockerfile: ./Dockerfile
+    image: arkserver
+    user: steam
+    network_mode: host
+    # command: ls /home/steam/ark -al
+    command: /home/steam/ark/ShooterGame/Binaries/Linux/ShooterGameServer TheIsland?listen?Port=7777?QueryPort=27077?SessionName=MyArkServerHidena?ServerPassword=MyPassword?ServerAdminPassword=MyAdminPassword -nosteamclient -server -log
